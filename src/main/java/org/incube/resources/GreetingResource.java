@@ -1,4 +1,4 @@
-package org.incube;
+package org.incube.resources;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -11,6 +11,6 @@ public class GreetingResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
-        return "Hello from Quarkus REST it's hazem";
+        return "Hello from Quarkus REST it's me hazemmmmm";
     }
 }
