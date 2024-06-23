@@ -1,5 +1,8 @@
 package org.incube.resources;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.panache.common.Page;
+import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -20,13 +23,23 @@ public class ProductResource {
     @Inject
     ProductRepository productRepository;
 
+
     @GET
     public List<Product> getAll() {
         return productRepository.listAll();
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/page/{pageNumber}")
+    public List<Product> getPage(Integer pageNumber) {
+        PanacheQuery<Product> allProducts = productRepository.findAll(Sort.ascending("name"));
+        List<Product> page = allProducts.page(Page.of(pageNumber-1, 3)).list();
+
+        return page;
+    }
+
+    @GET
+    @Path("/product/{id}")
     public Product getById(Long id) {
         return productRepository.findById(id);
     }
@@ -34,6 +47,7 @@ public class ProductResource {
     @POST
     public Response create(Product product) {
         productRepository.persist(product);
+
         return Response.created(URI.create("/products/" + product.getId())).build();
     }
 
@@ -45,8 +59,7 @@ public class ProductResource {
             throw new NotFoundException();
         }
 
-        // map all fields from the person parameter to the existing entity
-//        entity.name = person.name;
+        // map all fields from the product parameter to the existing entity
         entity.setName(product.getName());
         entity.setDescription(product.getDescription());
         entity.setPrice(product.getPrice());
