@@ -2,6 +2,7 @@ package org.incube.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "product")
@@ -11,20 +12,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "name should not be blank")
+    @NotBlank
     @Column(name = "name")
     private String name;
 
-    @NotBlank(message = "description should not be blank")
+    @NotBlank
     @Column(name = "description")
     private String description;
 
-    @Min(message = "minimum price is 1.00 egp", value = 1)
-    @NotBlank(message = "minimum price is 1.00 egp")
+    @Min(value = 1)
+    @NotNull
     @Column(name = "price")
     private Double price;
 
-    @NotBlank(message = "image link should not be blank")
+    @NotBlank
     @Column(name = "image")
     private String image;
 
