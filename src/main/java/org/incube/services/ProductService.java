@@ -76,25 +76,7 @@ public class ProductService {
     }
 
     public Response create(Product product) {
-        Set<ConstraintViolation<Product>> violations = validator.validate(product);
-        if (violations.isEmpty()) {
-            productRepository.persist(product);
-            return Response
-                    .status(Response.Status.CREATED)
-                    .build();
-        }
-
-        return Response
-                .status(Response.Status.BAD_REQUEST)
-                .entity(
-                        new ErrorBody(
-                                "Invalid Product Values",
-                                "Name, Description, Price and Image link are required. " +
-                                        "And the minimum value of Price is 1.00"
-                        )
-                )
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+        return productCreator(0, product, -1L);
     }
 
     public Response update(Long id, Product product) {
@@ -135,11 +117,7 @@ public class ProductService {
                 break;
             case 1:
                 //second operation - update
-                entity.setName(product.getName());
-                entity.setDescription(product.getDescription());
-                entity.setPrice(product.getPrice());
-                entity.setImage(product.getImage());
-                break;
+                return productCreator(1, product, id);
             case 2:
                 //third operation - delete
                 productRepository.delete(entity);
@@ -150,6 +128,44 @@ public class ProductService {
         return Response
                 .status(Response.Status.OK)
                 .entity(entity)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+    }
+
+    private Response productCreator(int operationNumber, Product product, Long id) {
+        Set<ConstraintViolation<Product>> violations = validator.validate(product);
+        if (violations.isEmpty()) {
+            switch (operationNumber) {
+                case 0:
+                    // create product
+                    productRepository.persist(product);
+                    return Response
+                            .status(Response.Status.CREATED)
+                            .build();
+                case 1:
+                    // update product
+                    Product entity = productRepository.findById(id);
+                    entity.setName(product.getName());
+                    entity.setDescription(product.getDescription());
+                    entity.setPrice(product.getPrice());
+                    entity.setImage(product.getImage());
+                    return Response
+                            .status(Response.Status.OK)
+                            .entity(entity)
+                            .type(MediaType.APPLICATION_JSON)
+                            .build();
+            }
+        }
+
+        return Response
+                .status(Response.Status.BAD_REQUEST)
+                .entity(
+                        new ErrorBody(
+                                "Invalid Product Values",
+                                "Name, Description, Price and Image link are required. " +
+                                        "And the minimum value of Price is 1.00"
+                        )
+                )
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }
