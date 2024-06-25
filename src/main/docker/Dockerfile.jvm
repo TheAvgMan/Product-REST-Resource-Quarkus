@@ -7,7 +7,7 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.jvm -t quarkus/internship-task-jvm .
+# docker build -f src/main/docker/Dockerfile.jvm -t ProductResource-REST-Quarkus-jvm .
 #
 # Then run the container using:
 #
