@@ -1,4 +1,4 @@
-package org.incube.application.services;
+package org.incube.application.useCases;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;

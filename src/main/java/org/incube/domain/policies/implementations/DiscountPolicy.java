@@ -1,10 +1,11 @@
-package org.incube.domain.policies;
+package org.incube.domain.policies.implementations;
 
 import org.incube.domain.entities.Product;
+import org.incube.domain.policies.abstractions.IDiscountPolicy;
 
 import java.util.List;
 
-public class Discount implements IDiscountPolicy{
+public class DiscountPolicy implements IDiscountPolicy {
 
     @Override
     public double discountForEvent(Product product) {

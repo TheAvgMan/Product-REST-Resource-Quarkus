@@ -1,4 +1,4 @@
-package org.incube.domain.policies;
+package org.incube.domain.policies.abstractions;
 
 import org.incube.domain.entities.Product;
 

@@ -6,7 +6,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.incube.domain.entities.Product;
-import org.incube.application.services.ProductService;
+import org.incube.application.useCases.ProductService;
 
 
 @Path("/products")
