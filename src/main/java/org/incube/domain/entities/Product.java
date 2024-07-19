@@ -1,4 +1,5 @@
-package org.incube.entities;
+package org.incube.domain.entities;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

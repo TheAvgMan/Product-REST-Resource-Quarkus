@@ -2,7 +2,7 @@ package org.incube;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
-import org.incube.entities.Product;
+import org.incube.domain.entities.Product;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.*;
 
 
 @QuarkusTest
-class ProductResourceTest {
+class ProductControllerTest {
 
     @Test
     void testGetAllEndpoint() {

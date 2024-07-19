@@ -1,19 +1,19 @@
-package org.incube.resources;
+package org.incube.presentation.controllers;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.incube.entities.Product;
-import org.incube.services.ProductService;
+import org.incube.domain.entities.Product;
+import org.incube.application.services.ProductService;
 
 
 @Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
-public class ProductResource {
+public class ProductController {
 
     @Inject
     private ProductService productService;

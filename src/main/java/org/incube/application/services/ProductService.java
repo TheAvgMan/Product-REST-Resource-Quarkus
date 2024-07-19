@@ -1,4 +1,4 @@
-package org.incube.services;
+package org.incube.application.services;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;
@@ -9,9 +9,9 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.incube.entities.Product;
+import org.incube.domain.entities.Product;
 import org.incube.helpers.ErrorBody;
-import org.incube.repositories.ProductRepository;
+import org.incube.infrastructure.repositories.ProductRepository;
 import java.util.List;
 import java.util.Set;
 
