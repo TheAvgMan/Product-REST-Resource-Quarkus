@@ -1,4 +1,4 @@
-package org.incube.helpers;
+package org.incube.application.helpers.implementations;
 
 public class ErrorBody {
 

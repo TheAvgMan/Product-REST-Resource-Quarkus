@@ -10,7 +10,7 @@ import jakarta.validation.Validator;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.incube.domain.entities.Product;
-import org.incube.helpers.ErrorBody;
+import org.incube.application.helpers.implementations.ErrorBody;
 import org.incube.infrastructure.repositories.ProductRepository;
 import java.util.List;
 import java.util.Set;
