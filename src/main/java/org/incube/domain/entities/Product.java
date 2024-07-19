@@ -31,12 +31,16 @@ public class Product {
     private String image;
 
 
-    public Long getId() {
-        return id;
+    public Product(String name, String description, Double price, String image) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {

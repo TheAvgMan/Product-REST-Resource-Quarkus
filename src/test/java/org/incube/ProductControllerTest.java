@@ -86,11 +86,8 @@ class ProductControllerTest {
 
     @Test
     void testCreateEndpoint1() {
-        Product testProduct = new Product();
-        testProduct.setName("");
-        testProduct.setDescription("test description");
-        testProduct.setImage("test image link");
-        testProduct.setPrice(2.00);
+        Product testProduct = new Product("", "test description",
+                2.00, "test image link");
 
         given()
                 .contentType(ContentType.JSON)
@@ -104,11 +101,8 @@ class ProductControllerTest {
 
     @Test
     void testCreateEndpoint2() {
-        Product testProduct = new Product();
-        testProduct.setName("test Name");
-        testProduct.setDescription("test description");
-        testProduct.setImage("test image link");
-        testProduct.setPrice(0.5);
+        Product testProduct = new Product("test Name", "test description",
+                0.5, "test image link");
 
         given()
                 .contentType(ContentType.JSON)
@@ -122,10 +116,8 @@ class ProductControllerTest {
 
     @Test
     void testCreateEndpoint3() {
-        Product testProduct = new Product();
-        testProduct.setName("test Name");
-        testProduct.setDescription("test description");
-        testProduct.setImage("test image link");
+        Product testProduct = new Product("test Name", "test description",
+                null, "test image link");
 
         given()
                 .contentType(ContentType.JSON)
@@ -139,10 +131,8 @@ class ProductControllerTest {
 
     @Test
     void testCreateEndpoint4() {
-        Product testProduct = new Product();
-        testProduct.setName("test Name");
-        testProduct.setImage("test image link");
-        testProduct.setPrice(2.0);
+        Product testProduct = new Product("test Name", null,
+                2.00, "test image link");
 
         given()
                 .contentType(ContentType.JSON)
@@ -156,11 +146,8 @@ class ProductControllerTest {
 
     @Test
     void testCreateEndpoint5() {
-        Product testProduct = new Product();
-        testProduct.setName("test Name");
-        testProduct.setDescription("test description");
-        testProduct.setImage("test image link");
-        testProduct.setPrice(1.0);
+        Product testProduct = new Product("test Name", "test description",
+                1.00, "test image link");
 
         given()
                 .contentType(ContentType.JSON)
