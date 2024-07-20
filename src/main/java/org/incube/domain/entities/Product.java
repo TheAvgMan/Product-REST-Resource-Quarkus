@@ -23,6 +23,8 @@ public class Product {
     private String image;
 
 
+    public Product() {}
+
     public Product(String name, String description, Double price, String image) {
         this.name = name;
         this.description = description;
