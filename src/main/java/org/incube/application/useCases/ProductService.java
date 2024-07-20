@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.incube.domain.entities.Product;
 import org.incube.application.helpers.implementations.ErrorBody;
-import org.incube.infrastructure.repositories.ProductRepository;
+import org.incube.infrastructure.repositories.external.PanacheProductRepository;
 import java.util.List;
 import java.util.Set;
 
@@ -19,14 +19,14 @@ import java.util.Set;
 public class ProductService {
 
     @Inject
-    private ProductRepository productRepository;
+    private PanacheProductRepository panacheProductRepository;
 
     @Inject
     private Validator validator;
 
 
     public Response getAll() {
-        List<Product> allProducts = productRepository.listAll();
+        List<Product> allProducts = panacheProductRepository.listAll();
 
         if (allProducts.isEmpty()) {
             return Response
@@ -55,7 +55,7 @@ public class ProductService {
                     .build();
         }
 
-        PanacheQuery<Product> allProducts = productRepository.findAll(Sort.ascending("name"));
+        PanacheQuery<Product> allProducts = panacheProductRepository.findAll(Sort.ascending("name"));
         List<Product> page = allProducts.page(Page.of(pageNumber-1, 3)).list();
 
         if (page.isEmpty()) {
@@ -102,7 +102,7 @@ public class ProductService {
                     .build();
         }
 
-        Product entity = productRepository.findById(id);
+        Product entity = panacheProductRepository.findById(id);
         if(entity == null) {
             return Response
                     .status(Response.Status.NO_CONTENT)
@@ -120,7 +120,7 @@ public class ProductService {
                 return productCreator(1, product, id);
             case 2:
                 //third operation - delete
-                productRepository.delete(entity);
+                panacheProductRepository.delete(entity);
                 entity = null;
                 break;
         }
@@ -138,13 +138,13 @@ public class ProductService {
             switch (operationNumber) {
                 case 0:
                     // create product
-                    productRepository.persist(product);
+                    panacheProductRepository.persist(product);
                     return Response
                             .status(Response.Status.CREATED)
                             .build();
                 case 1:
                     // update product
-                    Product entity = productRepository.findById(id);
+                    Product entity = panacheProductRepository.findById(id);
                     entity.setName(product.getName());
                     entity.setDescription(product.getDescription());
                     entity.setPrice(product.getPrice());

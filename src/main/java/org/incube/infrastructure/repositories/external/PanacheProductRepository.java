@@ -1,8 +1,8 @@
-package org.incube.infrastructure.repositories;
+package org.incube.infrastructure.repositories.external;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.incube.domain.entities.Product;
 
 @ApplicationScoped
-public class ProductRepository implements PanacheRepository<Product> {}
+public class PanacheProductRepository implements PanacheRepository<Product> {}
