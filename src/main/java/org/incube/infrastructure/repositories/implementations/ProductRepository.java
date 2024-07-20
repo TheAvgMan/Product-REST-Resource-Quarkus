@@ -34,28 +34,23 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public boolean storeProduct(Product product) {
+    public void storeProduct(Product product) {
         panacheProductRepository.persist(product);
-        return true;
     }
 
     @Override
-    public boolean updateProduct(long Id, Product product) {
+    public void updateProduct(long Id, Product product) {
         Product entity = panacheProductRepository.findById(Id);
 
         entity.setName(product.getName());
         entity.setDescription(product.getDescription());
         entity.setPrice(product.getPrice());
         entity.setImage(product.getImage());
-
-        return true;
     }
 
     @Override
-    public boolean deleteProduct(long Id) {
+    public void deleteProduct(long Id) {
         Product entity = panacheProductRepository.findById(Id);
         panacheProductRepository.delete(entity);
-
-        return true;
     }
 }

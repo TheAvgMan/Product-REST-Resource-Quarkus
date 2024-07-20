@@ -22,7 +22,8 @@ public class ManageProductUseCase implements IManageProductUseCase {
         ErrorBody errorBody = productValidator.validateProduct(product);
 
         if (errorBody == null) {
-            return productRepository.storeProduct(product);
+            productRepository.storeProduct(product);
+            return true;
         } else {
             // pass the error body object to somewhere
         }
@@ -38,7 +39,8 @@ public class ManageProductUseCase implements IManageProductUseCase {
             errorBody = productValidator.validateProduct(product);
 
             if (errorBody == null) {
-                return productRepository.updateProduct(Id, product);
+                productRepository.updateProduct(Id, product);
+                return true;
             }
 
         } else {
@@ -53,7 +55,8 @@ public class ManageProductUseCase implements IManageProductUseCase {
         ErrorBody errorBody = productValidator.validateId(Id);
 
         if (errorBody == null) {
-            return productRepository.deleteProduct(Id);
+            productRepository.deleteProduct(Id);
+            return true;
         } else {
             // pass the error body object to somewhere
         }
