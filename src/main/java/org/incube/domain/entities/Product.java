@@ -1,9 +1,6 @@
 package org.incube.domain.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "product")
@@ -13,20 +10,15 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(name = "name")
     private String name;
 
-    @NotBlank
     @Column(name = "description")
     private String description;
 
-    @Min(value = 1)
-    @NotNull
     @Column(name = "price")
     private Double price;
 
-    @NotBlank
     @Column(name = "image")
     private String image;
 
