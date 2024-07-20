@@ -13,7 +13,8 @@ public class ShowAllProductsUseCase implements IShowAllProductsUseCase {
     IProductRepository productRepository;
     IProductValidator productValidator;
 
-    public ShowAllProductsUseCase(IProductRepository productRepository, IProductValidator productValidator) {
+    public ShowAllProductsUseCase(IProductRepository productRepository,
+                                  IProductValidator productValidator) {
         this.productRepository = productRepository;
         this.productValidator = productValidator;
     }

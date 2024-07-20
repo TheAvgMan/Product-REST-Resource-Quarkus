@@ -40,17 +40,17 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public void updateProduct(long Id, Product product) {
-        Product entity = panacheProductRepository.findById(Id);
+        Product retrievedProduct = panacheProductRepository.findById(Id);
 
-        entity.setName(product.getName());
-        entity.setDescription(product.getDescription());
-        entity.setPrice(product.getPrice());
-        entity.setImage(product.getImage());
+        retrievedProduct.setName(product.getName());
+        retrievedProduct.setDescription(product.getDescription());
+        retrievedProduct.setPrice(product.getPrice());
+        retrievedProduct.setImage(product.getImage());
     }
 
     @Override
     public void deleteProduct(long Id) {
-        Product entity = panacheProductRepository.findById(Id);
-        panacheProductRepository.delete(entity);
+        Product retrievedProduct = panacheProductRepository.findById(Id);
+        panacheProductRepository.delete(retrievedProduct);
     }
 }
