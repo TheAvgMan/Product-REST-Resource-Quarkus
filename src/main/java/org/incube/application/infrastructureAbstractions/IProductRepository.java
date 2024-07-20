@@ -10,6 +10,7 @@ public interface IProductRepository {
     List<Product> fetchPageProducts(int page);
     Product fetchProductById(long Id);
     boolean storeProduct(Product product);
+    boolean updateProduct(long Id, Product product);
     boolean deleteProduct(long Id);
 
 }

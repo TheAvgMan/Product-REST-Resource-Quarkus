@@ -1,46 +1,56 @@
 package org.incube.application.useCases.implementations;
 
+import org.incube.application.helpers.abstractions.IProductValidator;
+import org.incube.application.helpers.implementations.ErrorBody;
+import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.application.useCases.abstractions.IManageProductUseCase;
 import org.incube.domain.entities.Product;
 
 public class ManageProductUseCase implements IManageProductUseCase {
 
+    IProductValidator productValidator;
+    IProductRepository productRepository;
+
     @Override
     public boolean createProduct(Product product) {
-        // step 1: validate the product fields
-        // if valid:
-            // step 2: store the product in the database
-            // step 3: return true
-        // else:
-            // step 2: use ErrorBody instance to communicate where the error was
-            // step 2: return false
+        ErrorBody errorBody = productValidator.validateProduct(product);
+
+        if (errorBody == null) {
+            return productRepository.storeProduct(product);
+        } else {
+            // pass the error body object to somewhere
+        }
 
         return false;
     }
 
     @Override
     public boolean updateProduct(long Id, Product product) {
-        // step 1: validate that the passed id exists
-            // step 2: validate the product fields (if step 1 is true)
-        // if valid:
-            // step 3: store the product in the database
-            // step 4: return true
-        // else:
-            // step 2: use ErrorBody instance to communicate where the error was
-            // step 3: return false
+        ErrorBody errorBody = productValidator.validateId(Id);
+
+        if (errorBody == null) {
+            errorBody = productValidator.validateProduct(product);
+
+            if (errorBody == null) {
+                return productRepository.updateProduct(Id, product);
+            }
+
+        } else {
+            // pass the error body object to somewhere
+        }
 
         return false;
     }
 
     @Override
     public boolean deleteProduct(long Id) {
-        // step 1: validate that the passed id exists
-        // if valid:
-            // step 3: delete the product from the database
-            // step 4: return true
-        // else:
-            // step 2: use ErrorBody instance to communicate where the error was
-            // step 3: return false
+        ErrorBody errorBody = productValidator.validateId(Id);
+
+        if (errorBody == null) {
+            return productRepository.deleteProduct(Id);
+        } else {
+            // pass the error body object to somewhere
+        }
 
         return false;
     }
