@@ -11,6 +11,12 @@ public class ManageProductUseCase implements IManageProductUseCase {
     IProductValidator productValidator;
     IProductRepository productRepository;
 
+    public ManageProductUseCase(IProductValidator productValidator,
+                                IProductRepository productRepository) {
+        this.productValidator = productValidator;
+        this.productRepository = productRepository;
+    }
+
     @Override
     public boolean createProduct(Product product) {
         ErrorBody errorBody = productValidator.validateProduct(product);
