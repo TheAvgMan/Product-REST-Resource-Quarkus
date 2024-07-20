@@ -12,8 +12,7 @@ import java.util.List;
 
 public class ProductRepository implements IProductRepository {
 
-    @Inject
-    PanacheProductRepository panacheProductRepository;
+    PanacheProductRepository panacheProductRepository = new PanacheProductRepository();
 
     @Override
     public List<Product> fetchAllProducts() {
