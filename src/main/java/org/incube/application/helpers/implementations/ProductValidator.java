@@ -4,6 +4,8 @@ import org.incube.application.helpers.abstractions.IProductValidator;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.domain.entities.Product;
 
+import java.util.List;
+
 public class ProductValidator implements IProductValidator {
 
     IProductRepository productRepository;
@@ -56,6 +58,19 @@ public class ProductValidator implements IProductValidator {
             return new ErrorBody(
                     "Invalid Product Image",
                     "Image should not be left out or empty"
+            );
+        }
+
+        return null;
+    }
+
+    @Override
+    public ErrorBody validateReturnedList(List<Product> products) {
+
+        if (products.isEmpty()) {
+            return new ErrorBody(
+                    "No Content",
+                    "No such available products"
             );
         }
 
