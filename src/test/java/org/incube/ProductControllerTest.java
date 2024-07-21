@@ -51,7 +51,7 @@ class ProductControllerTest {
     @Test
     void testGetPageEndpointPositiveNotExist() {
         given()
-                .when().get("/api/products/page/10")
+                .when().get("/api/products/page/20")
                 .then()
                 .statusCode(404);
     }

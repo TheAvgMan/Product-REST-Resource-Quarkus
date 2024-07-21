@@ -82,8 +82,8 @@ public class ProductValidator implements IProductValidator {
 
         if (products.isEmpty()) {
             return new ErrorBody(
-                    "Product(s) Unavailable Here",
-                    "No available product(s) data here"
+                    "Products Unavailable Here",
+                    "No available products data here"
             );
         }
 
