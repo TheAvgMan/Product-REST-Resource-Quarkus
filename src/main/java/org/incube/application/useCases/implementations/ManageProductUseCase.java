@@ -42,6 +42,8 @@ public class ManageProductUseCase implements IManageProductUseCase {
             if (errorBody == null) {
                 productRepository.updateProduct(Id, product);
                 return true;
+            } else {
+                ErrorBodyStore.addErrorBody(errorBody);
             }
 
         } else {

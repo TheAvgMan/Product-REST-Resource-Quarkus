@@ -52,12 +52,12 @@ public class ProductValidator implements IProductValidator {
     @Override
     public ErrorBody validateProduct(Product product) {
 
-        if (product.getName().isBlank()) {
+        if (product.getName() == null || product.getName().isBlank()) {
             return new ErrorBody(
                     "Invalid Product Name",
                     "Name should not be left out or empty"
             );
-        } else if (product.getDescription().isBlank()) {
+        } else if (product.getDescription() == null || product.getDescription().isBlank()) {
             return new ErrorBody(
                     "Invalid Product Description",
                     "Description should not be left out or empty"
@@ -67,7 +67,7 @@ public class ProductValidator implements IProductValidator {
                     "Invalid Product Price",
                     "Price should not be left out or be less than EGP 1.00"
             );
-        } else if (product.getImage().isBlank()) {
+        } else if (product.getImage() == null || product.getImage().isBlank()) {
             return new ErrorBody(
                     "Invalid Product Image",
                     "Image should not be left out or empty"

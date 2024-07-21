@@ -44,7 +44,10 @@ public class ShowAllProductsUseCase implements IShowAllProductsUseCase {
 
             if (errorBody == null) {
                 return pageProducts;
+            } else {
+                ErrorBodyStore.addErrorBody(errorBody);
             }
+
         } else {
             ErrorBodyStore.addErrorBody(errorBody);
         }
