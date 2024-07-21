@@ -37,6 +37,19 @@ public class ProductValidator implements IProductValidator {
     }
 
     @Override
+    public ErrorBody validatePageNumber(int page) {
+
+        if (page < 1) {
+            return new ErrorBody(
+                    "Invalid Page Number",
+                    "Page number should start from 1"
+            );
+        }
+
+        return null;
+    }
+
+    @Override
     public ErrorBody validateProduct(Product product) {
 
         if (product.getName().isBlank()) {
@@ -69,8 +82,8 @@ public class ProductValidator implements IProductValidator {
 
         if (products.isEmpty()) {
             return new ErrorBody(
-                    "No Content",
-                    "No such available products"
+                    "Product(s) Unavailable Here",
+                    "No available product(s) data here"
             );
         }
 

@@ -36,11 +36,15 @@ public class ShowAllProductsUseCase implements IShowAllProductsUseCase {
 
     @Override
     public List<Product> getPageProducts(int page) {
-        List<Product> pageProducts = productRepository.fetchPageProducts(page);
-        ErrorBody errorBody = productValidator.validateReturnedList(pageProducts);
+        ErrorBody errorBody = productValidator.validatePageNumber(page);
 
         if (errorBody == null) {
-            return pageProducts;
+            List<Product> pageProducts = productRepository.fetchPageProducts(page);
+            errorBody = productValidator.validateReturnedList(pageProducts);
+
+            if (errorBody == null) {
+                return pageProducts;
+            }
         } else {
             ErrorBodyStore.addErrorBody(errorBody);
         }

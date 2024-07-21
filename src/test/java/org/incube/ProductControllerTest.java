@@ -53,7 +53,7 @@ class ProductControllerTest {
         given()
                 .when().get("/api/products/page/10")
                 .then()
-                .statusCode(204);
+                .statusCode(404);
     }
 
     @Test
@@ -81,7 +81,7 @@ class ProductControllerTest {
         given()
                 .when().get("/api/products/product/1")
                 .then()
-                .statusCode(anyOf(is(200),is(204)));
+                .statusCode(anyOf(is(200),is(404)));
     }
 
     @Test
@@ -96,7 +96,7 @@ class ProductControllerTest {
                 .then()
                 .statusCode(400)
                 .contentType(ContentType.JSON)
-                .body("error", equalTo("Invalid Product Values"));
+                .body("error", equalTo("Invalid Product Name"));
     }
 
     @Test
@@ -111,7 +111,7 @@ class ProductControllerTest {
                 .then()
                 .statusCode(400)
                 .contentType(ContentType.JSON)
-                .body("error", equalTo("Invalid Product Values"));
+                .body("error", equalTo("Invalid Product Price"));
     }
 
     @Test
@@ -126,7 +126,7 @@ class ProductControllerTest {
                 .then()
                 .statusCode(400)
                 .contentType(ContentType.JSON)
-                .body("error", equalTo("Invalid Product Values"));
+                .body("error", equalTo("Invalid Product Price"));
     }
 
     @Test
@@ -141,7 +141,7 @@ class ProductControllerTest {
                 .then()
                 .statusCode(400)
                 .contentType(ContentType.JSON)
-                .body("error", equalTo("Invalid Product Values"));
+                .body("error", equalTo("Invalid Product Description"));
     }
 
     @Test

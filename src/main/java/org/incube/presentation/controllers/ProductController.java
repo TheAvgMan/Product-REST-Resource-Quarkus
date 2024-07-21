@@ -54,8 +54,6 @@ public class ProductController {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
             return Response
                     .status(Response.Status.NO_CONTENT)
-                    .entity(errorBody)
-                    .type(MediaType.APPLICATION_JSON)
                     .build();
         }
 
@@ -73,11 +71,20 @@ public class ProductController {
 
         if (pageProducts == null) {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
-            return Response
-                    .status(Response.Status.NOT_FOUND)
-                    .entity(errorBody)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+
+            if (errorBody.getError().equals("Invalid Page Number")) {
+                return Response
+                        .status(Response.Status.BAD_REQUEST)
+                        .entity(errorBody)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            } else {
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(errorBody)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            }
         }
 
         return Response
@@ -94,11 +101,20 @@ public class ProductController {
 
         if (retrievedProduct == null) {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
-            return Response
-                    .status(Response.Status.NOT_FOUND)
-                    .entity(errorBody)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+
+            if (errorBody.getError().equals("Invalid ID Number")) {
+                return Response
+                        .status(Response.Status.BAD_REQUEST)
+                        .entity(errorBody)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            } else {
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(errorBody)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            }
         }
 
         return Response
@@ -133,11 +149,20 @@ public class ProductController {
 
         if (!productUpdated) {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity(errorBody)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+
+            if (errorBody.getError().equals("Product does not exist")) {
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(errorBody)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            } else {
+                return Response
+                        .status(Response.Status.BAD_REQUEST)
+                        .entity(errorBody)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            }
         }
 
         return Response
@@ -154,11 +179,20 @@ public class ProductController {
 
         if (!productDeleted) {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity(errorBody)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+
+            if (errorBody.getError().equals("Product does not exist")) {
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(errorBody)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            } else {
+                return Response
+                        .status(Response.Status.BAD_REQUEST)
+                        .entity(errorBody)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            }
         }
 
         return Response

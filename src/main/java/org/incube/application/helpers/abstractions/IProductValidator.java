@@ -8,6 +8,7 @@ import java.util.List;
 public interface IProductValidator {
 
     ErrorBody validateId(long Id);
+    ErrorBody validatePageNumber(int page);
     ErrorBody validateProduct(Product product);
     ErrorBody validateReturnedList(List<Product> products);
 
