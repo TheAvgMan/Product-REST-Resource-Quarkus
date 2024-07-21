@@ -3,7 +3,6 @@ package org.incube.infrastructure.repositories.implementations;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
-import jakarta.inject.Inject;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.domain.entities.Product;
 import org.incube.infrastructure.repositories.external.PanacheProductRepository;
