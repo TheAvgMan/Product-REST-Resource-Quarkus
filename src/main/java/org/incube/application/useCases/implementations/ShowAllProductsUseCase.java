@@ -2,6 +2,7 @@ package org.incube.application.useCases.implementations;
 
 import org.incube.application.helpers.abstractions.IProductValidator;
 import org.incube.application.helpers.implementations.ErrorBody;
+import org.incube.application.helpers.implementations.ErrorBodyStore;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.application.useCases.abstractions.IShowAllProductsUseCase;
 import org.incube.domain.entities.Product;
@@ -27,7 +28,7 @@ public class ShowAllProductsUseCase implements IShowAllProductsUseCase {
         if (errorBody == null) {
             return allProducts;
         } else {
-            // pass the error body object to somewhere
+            ErrorBodyStore.addErrorBody(errorBody);
         }
 
         return null;
@@ -41,7 +42,7 @@ public class ShowAllProductsUseCase implements IShowAllProductsUseCase {
         if (errorBody == null) {
             return pageProducts;
         } else {
-            // pass the error body object to somewhere
+            ErrorBodyStore.addErrorBody(errorBody);
         }
 
         return null;

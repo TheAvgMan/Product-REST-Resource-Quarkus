@@ -5,6 +5,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.incube.application.helpers.abstractions.IProductValidator;
+import org.incube.application.helpers.implementations.ErrorBody;
+import org.incube.application.helpers.implementations.ErrorBodyStore;
 import org.incube.application.helpers.implementations.ProductValidator;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.application.useCases.abstractions.IManageProductUseCase;
@@ -49,8 +51,12 @@ public class ProductController {
         List<Product> allProducts = showAllProductsUseCase.getAllProducts();
 
         if (allProducts == null) {
-            // get the error body object passed from the above method call
-            // then return it as response object
+            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+            return Response
+                    .status(Response.Status.NO_CONTENT)
+                    .entity(errorBody)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
 
         return Response
@@ -66,8 +72,12 @@ public class ProductController {
         List<Product> pageProducts = showAllProductsUseCase.getPageProducts(pageNumber);
 
         if (pageProducts == null) {
-            // get the error body object passed from the above method call
-            // then return it as response object
+            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .entity(errorBody)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
 
         return Response
@@ -83,8 +93,12 @@ public class ProductController {
         Product retrievedProduct = showSelectedProductDetailsUseCase.getProductDetails(id);
 
         if (retrievedProduct == null) {
-            // get the error body object passed from the above method call
-            // then return it as response object
+            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .entity(errorBody)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
 
         return Response
@@ -99,8 +113,12 @@ public class ProductController {
         boolean productCreated = manageProductUseCase.createProduct(product);
 
         if (!productCreated) {
-            // get the error body object passed from the above method call
-            // then return it as response object
+            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(errorBody)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
 
         return Response
@@ -114,8 +132,12 @@ public class ProductController {
         boolean productUpdated = manageProductUseCase.updateProduct(id, product);
 
         if (!productUpdated) {
-            // get the error body object passed from the above method call
-            // then return it as response object
+            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(errorBody)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
 
         return Response
@@ -131,8 +153,12 @@ public class ProductController {
         boolean productDeleted = manageProductUseCase.deleteProduct(id);
 
         if (!productDeleted) {
-            // get the error body object passed from the above method call
-            // then return it as response object
+            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(errorBody)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
 
         return Response

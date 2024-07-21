@@ -2,6 +2,7 @@ package org.incube.application.useCases.implementations;
 
 import org.incube.application.helpers.abstractions.IProductValidator;
 import org.incube.application.helpers.implementations.ErrorBody;
+import org.incube.application.helpers.implementations.ErrorBodyStore;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.application.useCases.abstractions.IManageProductUseCase;
 import org.incube.domain.entities.Product;
@@ -25,7 +26,7 @@ public class ManageProductUseCase implements IManageProductUseCase {
             productRepository.storeProduct(product);
             return true;
         } else {
-            // pass the error body object to somewhere
+            ErrorBodyStore.addErrorBody(errorBody);
         }
 
         return false;
@@ -44,7 +45,7 @@ public class ManageProductUseCase implements IManageProductUseCase {
             }
 
         } else {
-            // pass the error body object to somewhere
+            ErrorBodyStore.addErrorBody(errorBody);
         }
 
         return false;
@@ -58,7 +59,7 @@ public class ManageProductUseCase implements IManageProductUseCase {
             productRepository.deleteProduct(Id);
             return true;
         } else {
-            // pass the error body object to somewhere
+            ErrorBodyStore.addErrorBody(errorBody);
         }
 
         return false;
