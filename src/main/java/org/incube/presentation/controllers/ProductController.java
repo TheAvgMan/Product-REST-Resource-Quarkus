@@ -1,5 +1,6 @@
 package org.incube.presentation.controllers;
 
+import com.tietoevry.quarkus.resteasy.problem.HttpProblem;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -18,6 +19,7 @@ import org.incube.application.useCases.implementations.ShowSelectedProductDetail
 import org.incube.domain.entities.Product;
 import org.incube.infrastructure.repositories.implementations.ProductRepository;
 
+import java.net.URI;
 import java.util.List;
 
 
@@ -73,16 +75,18 @@ public class ProductController {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
 
             if (errorBody.getError().equals("Invalid Page Number")) {
-                return Response
-                        .status(Response.Status.BAD_REQUEST)
-                        .entity(errorBody)
-                        .type(MediaType.APPLICATION_JSON)
+                throw HttpProblem.builder()
+                        .withType(URI.create("https://incube.org/product/error/invalid-page-number"))
+                        .withTitle("Bad Request - Invalid Page Number")
+                        .withStatus(Response.Status.BAD_REQUEST)
+                        .withDetail("Page numbers should start from 1")
                         .build();
             } else {
-                return Response
-                        .status(Response.Status.NOT_FOUND)
-                        .entity(errorBody)
-                        .type(MediaType.APPLICATION_JSON)
+                throw HttpProblem.builder()
+                        .withType(URI.create("https://incube.org/product/error/page-doesnot-exist"))
+                        .withTitle("Not Found - Page Does Not Exist")
+                        .withStatus(Response.Status.NOT_FOUND)
+                        .withDetail("No such page exists")
                         .build();
             }
         }
@@ -103,16 +107,18 @@ public class ProductController {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
 
             if (errorBody.getError().equals("Invalid ID Number")) {
-                return Response
-                        .status(Response.Status.BAD_REQUEST)
-                        .entity(errorBody)
-                        .type(MediaType.APPLICATION_JSON)
+                throw HttpProblem.builder()
+                        .withType(URI.create("https://incube.org/product/error/invalid-product-id"))
+                        .withTitle("Bad Request - Invalid Product ID")
+                        .withStatus(Response.Status.BAD_REQUEST)
+                        .withDetail("Products IDs should start from 1")
                         .build();
             } else {
-                return Response
-                        .status(Response.Status.NOT_FOUND)
-                        .entity(errorBody)
-                        .type(MediaType.APPLICATION_JSON)
+                throw HttpProblem.builder()
+                        .withType(URI.create("https://incube.org/product/error/product-doesnot-exist"))
+                        .withTitle("Not Found - Product Does Not Exist")
+                        .withStatus(Response.Status.NOT_FOUND)
+                        .withDetail("No such product exists with this ID")
                         .build();
             }
         }
@@ -130,10 +136,11 @@ public class ProductController {
 
         if (!productCreated) {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity(errorBody)
-                    .type(MediaType.APPLICATION_JSON)
+            throw HttpProblem.builder()
+                    .withType(URI.create("https://incube.org/product/error/invalid-product-values"))
+                    .withTitle("Bad Request - Invalid Product Value(s)")
+                    .withStatus(Response.Status.BAD_REQUEST)
+                    .withDetail("There is one or more invalid product values")
                     .build();
         }
 
@@ -151,10 +158,11 @@ public class ProductController {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
 
             if (errorBody.getError().equals("Product does not exist")) {
-                return Response
-                        .status(Response.Status.NOT_FOUND)
-                        .entity(errorBody)
-                        .type(MediaType.APPLICATION_JSON)
+                throw HttpProblem.builder()
+                        .withType(URI.create("https://incube.org/product/error/product-doesnot-exist"))
+                        .withTitle("Not Found - Product Does Not Exist")
+                        .withStatus(Response.Status.NOT_FOUND)
+                        .withDetail("No such product exists with this ID")
                         .build();
             } else {
                 return Response
@@ -181,16 +189,18 @@ public class ProductController {
             ErrorBody errorBody = ErrorBodyStore.getErrorBody();
 
             if (errorBody.getError().equals("Product does not exist")) {
-                return Response
-                        .status(Response.Status.NOT_FOUND)
-                        .entity(errorBody)
-                        .type(MediaType.APPLICATION_JSON)
+                throw HttpProblem.builder()
+                        .withType(URI.create("https://incube.org/product/error/product-doesnot-exist"))
+                        .withTitle("Not Found - Product Does Not Exist")
+                        .withStatus(Response.Status.NOT_FOUND)
+                        .withDetail("No such product exists with this ID")
                         .build();
             } else {
-                return Response
-                        .status(Response.Status.BAD_REQUEST)
-                        .entity(errorBody)
-                        .type(MediaType.APPLICATION_JSON)
+                throw HttpProblem.builder()
+                        .withType(URI.create("https://incube.org/product/error/invalid-product-id"))
+                        .withTitle("Bad Request - Invalid Product ID")
+                        .withStatus(Response.Status.BAD_REQUEST)
+                        .withDetail("Products IDs should start from 1")
                         .build();
             }
         }
