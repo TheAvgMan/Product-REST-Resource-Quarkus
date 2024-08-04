@@ -15,79 +15,94 @@ public class ProductValidator implements IProductValidator {
     }
 
     @Override
-    public ErrorBody validateId(long Id) {
+    public Result<Boolean, ErrorBody> validateId(long Id) {
 
         if (Id < 1) {
-            return new ErrorBody(
-                    "Invalid ID Number",
-                    "ID number should start from 1"
+            return Result.failure(
+                    new ErrorBody(
+                            "Invalid ID Number",
+                            "ID number should start from 1"
+                    )
             );
         }
 
         Product retrievedProduct = productRepository.fetchProductById(Id);
 
         if (retrievedProduct == null) {
-            return new ErrorBody(
-                    "Product does not exist",
-                    "No Product with such ID"
+            return Result.failure(
+                    new ErrorBody(
+                            "Product does not exist",
+                            "No Product with such ID"
+                    )
             );
         }
 
-        return null;
+        return Result.success(true);
     }
 
     @Override
-    public ErrorBody validatePageNumber(int page) {
+    public Result<Boolean, ErrorBody> validatePageNumber(int page) {
 
         if (page < 1) {
-            return new ErrorBody(
-                    "Invalid Page Number",
-                    "Page number should start from 1"
+            return Result.failure(
+                    new ErrorBody(
+                            "Invalid Page Number",
+                            "Page number should start from 1"
+                    )
             );
         }
 
-        return null;
+        return Result.success(true);
     }
 
     @Override
-    public ErrorBody validateProduct(Product product) {
+    public Result<Boolean, ErrorBody> validateProduct(Product product) {
 
         if (product.getName() == null || product.getName().isBlank()) {
-            return new ErrorBody(
-                    "Invalid Product Name",
-                    "Name should not be left out or empty"
+            return Result.failure(
+                    new ErrorBody(
+                            "Invalid Product Name",
+                            "Name should not be left out or empty"
+                    )
             );
         } else if (product.getDescription() == null || product.getDescription().isBlank()) {
-            return new ErrorBody(
-                    "Invalid Product Description",
-                    "Description should not be left out or empty"
+            return Result.failure(
+                    new ErrorBody(
+                            "Invalid Product Description",
+                            "Description should not be left out or empty"
+                    )
             );
         } else if (product.getPrice() == null || product.getPrice() < 1.00) {
-            return new ErrorBody(
-                    "Invalid Product Price",
-                    "Price should not be left out or be less than EGP 1.00"
+            return Result.failure(
+                    new ErrorBody(
+                            "Invalid Product Price",
+                            "Price should not be left out or be less than EGP 1.00"
+                    )
             );
         } else if (product.getImage() == null || product.getImage().isBlank()) {
-            return new ErrorBody(
-                    "Invalid Product Image",
-                    "Image should not be left out or empty"
+            return Result.failure(
+                    new ErrorBody(
+                            "Invalid Product Image",
+                            "Image should not be left out or empty"
+                    )
             );
         }
 
-        return null;
+        return Result.success(true);
     }
 
     @Override
-    public ErrorBody validateReturnedList(List<Product> products) {
+    public Result<Boolean, ErrorBody> validateReturnedList(List<Product> products) {
 
         if (products.isEmpty()) {
-            return new ErrorBody(
-                    "Products Unavailable Here",
-                    "No available products data here"
+            return Result.failure(
+                    new ErrorBody(
+                            "Products Unavailable Here",
+                            "No available products data here"
+                    )
             );
         }
 
-        return null;
+        return Result.success(true);
     }
-
 }

@@ -1,15 +1,16 @@
 package org.incube.application.helpers.abstractions;
 
 import org.incube.application.helpers.implementations.ErrorBody;
+import org.incube.application.helpers.implementations.Result;
 import org.incube.domain.entities.Product;
 
 import java.util.List;
 
 public interface IProductValidator {
 
-    ErrorBody validateId(long Id);
-    ErrorBody validatePageNumber(int page);
-    ErrorBody validateProduct(Product product);
-    ErrorBody validateReturnedList(List<Product> products);
+    Result<Boolean, ErrorBody> validateId(long Id);
+    Result<Boolean, ErrorBody> validatePageNumber(int page);
+    Result<Boolean, ErrorBody> validateProduct(Product product);
+    Result<Boolean, ErrorBody> validateReturnedList(List<Product> products);
 
 }

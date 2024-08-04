@@ -2,7 +2,7 @@ package org.incube.application.useCases.implementations;
 
 import org.incube.application.helpers.abstractions.IProductValidator;
 import org.incube.application.helpers.implementations.ErrorBody;
-import org.incube.application.helpers.implementations.ErrorBodyStore;
+import org.incube.application.helpers.implementations.Result;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.application.useCases.abstractions.IShowSelectedProductDetailsUseCase;
 import org.incube.domain.entities.Product;
@@ -19,16 +19,17 @@ public class ShowSelectedProductDetailsUseCase implements IShowSelectedProductDe
     }
 
     @Override
-    public Product getProductDetails(long Id) {
-        ErrorBody errorBody = productValidator.validateId(Id);
+    public Result<Product, ErrorBody> getProductDetails(long Id) {
+        Result<Boolean, ErrorBody> result = productValidator.validateId(Id);
 
-        if (errorBody == null) {
-            return productRepository.fetchProductById(Id);
-        } else {
-            ErrorBodyStore.addErrorBody(errorBody);
+        if (result.isSuccess()) {
+            return Result.success(
+                    productRepository.fetchProductById(Id)
+            );
         }
 
-        return null;
+        return Result.failure(
+                result.getFailureData()
+        );
     }
-
 }

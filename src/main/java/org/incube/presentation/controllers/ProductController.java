@@ -7,8 +7,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.incube.application.helpers.abstractions.IProductValidator;
 import org.incube.application.helpers.implementations.ErrorBody;
-import org.incube.application.helpers.implementations.ErrorBodyStore;
 import org.incube.application.helpers.implementations.ProductValidator;
+import org.incube.application.helpers.implementations.Result;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.application.useCases.abstractions.IManageProductUseCase;
 import org.incube.application.useCases.abstractions.IShowAllProductsUseCase;
@@ -50,10 +50,9 @@ public class ProductController {
 
     @GET
     public Response getAll() {
-        List<Product> allProducts = showAllProductsUseCase.getAllProducts();
+        Result<List<Product>, ErrorBody> result = showAllProductsUseCase.getAllProducts();
 
-        if (allProducts == null) {
-            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+        if (!result.isSuccess()) {
             return Response
                     .status(Response.Status.NO_CONTENT)
                     .build();
@@ -61,7 +60,7 @@ public class ProductController {
 
         return Response
                 .status(Response.Status.OK)
-                .entity(allProducts)
+                .entity(result.getSuccessData())
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }
@@ -69,12 +68,12 @@ public class ProductController {
     @GET
     @Path("/page/{pageNumber}")
     public Response getPage(Integer pageNumber) {
-        List<Product> pageProducts = showAllProductsUseCase.getPageProducts(pageNumber);
+        Result<List<Product>, ErrorBody> result = showAllProductsUseCase.getPageProducts(pageNumber);
 
-        if (pageProducts == null) {
-            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+        if (!result.isSuccess()) {
+            ErrorBody errorBody = result.getFailureData();
 
-            if (errorBody.getError().equals("Invalid Page Number")) {
+            if (errorBody.getTitle().equals("Invalid Page Number")) {
                 throw HttpProblem.builder()
                         .withType(URI.create("https://incube.org/product/error/invalid-page-number"))
                         .withTitle("Bad Request - Invalid Page Number")
@@ -93,7 +92,7 @@ public class ProductController {
 
         return Response
                 .status(Response.Status.OK)
-                .entity(pageProducts)
+                .entity(result.getSuccessData())
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }
@@ -101,12 +100,13 @@ public class ProductController {
     @GET
     @Path("/product/{id}")
     public Response getById(Long id) {
-        Product retrievedProduct = showSelectedProductDetailsUseCase.getProductDetails(id);
+        Result<Product, ErrorBody> result = showSelectedProductDetailsUseCase
+                                                                        .getProductDetails(id);
 
-        if (retrievedProduct == null) {
-            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+        if (!result.isSuccess()) {
+            ErrorBody errorBody = result.getFailureData();
 
-            if (errorBody.getError().equals("Invalid ID Number")) {
+            if (errorBody.getTitle().equals("Invalid ID Number")) {
                 throw HttpProblem.builder()
                         .withType(URI.create("https://incube.org/product/error/invalid-product-id"))
                         .withTitle("Bad Request - Invalid Product ID")
@@ -125,17 +125,17 @@ public class ProductController {
 
         return Response
                 .status(Response.Status.OK)
-                .entity(retrievedProduct)
+                .entity(result.getSuccessData())
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }
 
     @POST
     public Response create(Product product) {
-        boolean productCreated = manageProductUseCase.createProduct(product);
+        Result<Boolean, ErrorBody> result = manageProductUseCase.createProduct(product);
 
-        if (!productCreated) {
-            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+        if (!result.isSuccess()) {
+            ErrorBody errorBody = result.getFailureData();
             throw HttpProblem.builder()
                     .withType(URI.create("https://incube.org/product/error/invalid-product-values"))
                     .withTitle("Bad Request - Invalid Product Value(s)")
@@ -152,12 +152,12 @@ public class ProductController {
     @PUT
     @Path("/{id}")
     public Response update(Long id, Product product) {
-        boolean productUpdated = manageProductUseCase.updateProduct(id, product);
+        Result<Boolean, ErrorBody> result = manageProductUseCase.updateProduct(id, product);
 
-        if (!productUpdated) {
-            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+        if (!result.isSuccess()) {
+            ErrorBody errorBody = result.getFailureData();
 
-            if (errorBody.getError().equals("Product does not exist")) {
+            if (errorBody.getTitle().equals("Product does not exist")) {
                 throw HttpProblem.builder()
                         .withType(URI.create("https://incube.org/product/error/product-doesnot-exist"))
                         .withTitle("Not Found - Product Does Not Exist")
@@ -183,12 +183,12 @@ public class ProductController {
     @DELETE
     @Path("/{id}")
     public Response delete(Long id) {
-        boolean productDeleted = manageProductUseCase.deleteProduct(id);
+        Result<Boolean, ErrorBody> result = manageProductUseCase.deleteProduct(id);
 
-        if (!productDeleted) {
-            ErrorBody errorBody = ErrorBodyStore.getErrorBody();
+        if (!result.isSuccess()) {
+            ErrorBody errorBody = result.getFailureData();
 
-            if (errorBody.getError().equals("Product does not exist")) {
+            if (errorBody.getTitle().equals("Product does not exist")) {
                 throw HttpProblem.builder()
                         .withType(URI.create("https://incube.org/product/error/product-doesnot-exist"))
                         .withTitle("Not Found - Product Does Not Exist")

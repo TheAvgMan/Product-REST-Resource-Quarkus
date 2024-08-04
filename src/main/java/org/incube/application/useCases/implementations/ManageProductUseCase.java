@@ -2,7 +2,7 @@ package org.incube.application.useCases.implementations;
 
 import org.incube.application.helpers.abstractions.IProductValidator;
 import org.incube.application.helpers.implementations.ErrorBody;
-import org.incube.application.helpers.implementations.ErrorBodyStore;
+import org.incube.application.helpers.implementations.Result;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.application.useCases.abstractions.IManageProductUseCase;
 import org.incube.domain.entities.Product;
@@ -19,52 +19,52 @@ public class ManageProductUseCase implements IManageProductUseCase {
     }
 
     @Override
-    public boolean createProduct(Product product) {
-        ErrorBody errorBody = productValidator.validateProduct(product);
+    public Result<Boolean, ErrorBody> createProduct(Product product) {
+        Result<Boolean, ErrorBody> result = productValidator.validateProduct(product);
 
-        if (errorBody == null) {
+        if (result.isSuccess()) {
             productRepository.storeProduct(product);
-            return true;
-        } else {
-            ErrorBodyStore.addErrorBody(errorBody);
+            return Result.success(true);
         }
 
-        return false;
+        return Result.failure(
+                result.getFailureData()
+        );
     }
 
     @Override
-    public boolean updateProduct(long Id, Product product) {
-        ErrorBody errorBody = productValidator.validateId(Id);
+    public Result<Boolean, ErrorBody> updateProduct(long Id, Product product) {
+        Result<Boolean, ErrorBody> result = productValidator.validateId(Id);
 
-        if (errorBody == null) {
-            errorBody = productValidator.validateProduct(product);
+        if (result.isSuccess()) {
+            result = productValidator.validateProduct(product);
 
-            if (errorBody == null) {
+            if (result.isSuccess()) {
                 productRepository.updateProduct(Id, product);
-                return true;
-            } else {
-                ErrorBodyStore.addErrorBody(errorBody);
+                return Result.success(true);
             }
 
-        } else {
-            ErrorBodyStore.addErrorBody(errorBody);
+            return Result.failure(
+                    result.getFailureData()
+            );
         }
 
-        return false;
+        return Result.failure(
+                result.getFailureData()
+        );
     }
 
     @Override
-    public boolean deleteProduct(long Id) {
-        ErrorBody errorBody = productValidator.validateId(Id);
+    public Result<Boolean, ErrorBody> deleteProduct(long Id) {
+        Result<Boolean, ErrorBody> result = productValidator.validateId(Id);
 
-        if (errorBody == null) {
+        if (result.isSuccess()) {
             productRepository.deleteProduct(Id);
-            return true;
-        } else {
-            ErrorBodyStore.addErrorBody(errorBody);
+            return Result.success(true);
         }
 
-        return false;
+        return Result.failure(
+                result.getFailureData()
+        );
     }
-
 }

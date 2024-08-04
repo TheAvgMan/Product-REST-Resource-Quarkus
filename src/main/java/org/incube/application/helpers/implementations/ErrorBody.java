@@ -2,22 +2,22 @@ package org.incube.application.helpers.implementations;
 
 public class ErrorBody {
 
-    private String error;
+    private String title;
     private String details;
 
 
-    public ErrorBody(String error, String details) {
-        this.error = error;
+    public ErrorBody(String title, String details) {
+        this.title = title;
         this.details = details;
     }
 
 
-    public String getError() {
-        return error;
+    public String getTitle() {
+        return title;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDetails() {

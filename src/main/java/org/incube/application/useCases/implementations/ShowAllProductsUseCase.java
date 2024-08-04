@@ -2,7 +2,7 @@ package org.incube.application.useCases.implementations;
 
 import org.incube.application.helpers.abstractions.IProductValidator;
 import org.incube.application.helpers.implementations.ErrorBody;
-import org.incube.application.helpers.implementations.ErrorBodyStore;
+import org.incube.application.helpers.implementations.Result;
 import org.incube.application.infrastructureAbstractions.IProductRepository;
 import org.incube.application.useCases.abstractions.IShowAllProductsUseCase;
 import org.incube.domain.entities.Product;
@@ -21,38 +21,38 @@ public class ShowAllProductsUseCase implements IShowAllProductsUseCase {
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public Result<List<Product>, ErrorBody> getAllProducts() {
         List<Product> allProducts = productRepository.fetchAllProducts();
-        ErrorBody errorBody = productValidator.validateReturnedList(allProducts);
+        Result<Boolean, ErrorBody> result = productValidator.validateReturnedList(allProducts);
 
-        if (errorBody == null) {
-            return allProducts;
-        } else {
-            ErrorBodyStore.addErrorBody(errorBody);
+        if (result.isSuccess()) {
+            return Result.success(allProducts);
         }
 
-        return null;
+        return Result.failure(
+                result.getFailureData()
+        );
     }
 
     @Override
-    public List<Product> getPageProducts(int page) {
-        ErrorBody errorBody = productValidator.validatePageNumber(page);
+    public Result<List<Product>, ErrorBody> getPageProducts(int page) {
+        Result<Boolean, ErrorBody> result = productValidator.validatePageNumber(page);
 
-        if (errorBody == null) {
+        if (result.isSuccess()) {
             List<Product> pageProducts = productRepository.fetchPageProducts(page);
-            errorBody = productValidator.validateReturnedList(pageProducts);
+            result = productValidator.validateReturnedList(pageProducts);
 
-            if (errorBody == null) {
-                return pageProducts;
-            } else {
-                ErrorBodyStore.addErrorBody(errorBody);
+            if (result.isSuccess()) {
+                return Result.success(pageProducts);
             }
 
-        } else {
-            ErrorBodyStore.addErrorBody(errorBody);
+            return Result.failure(
+                    result.getFailureData()
+            );
         }
 
-        return null;
+        return Result.failure(
+                result.getFailureData()
+        );
     }
-
 }
