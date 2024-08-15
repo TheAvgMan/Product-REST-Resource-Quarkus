@@ -21,7 +21,7 @@ public class ProductRepository implements IProductRepository {
     @Override
     public List<Product> fetchPageProducts(int page) {
         PanacheQuery<Product> allProducts = panacheProductRepository.findAll(Sort.ascending("name"));
-        List<Product> pageList = allProducts.page(Page.of(page - 1, 3)).list();
+        List<Product> pageList = allProducts.page(Page.of(page - 1, 9)).list();
 
         return pageList;
     }
